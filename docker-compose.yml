@@ -90,115 +90,115 @@ services:
 
 
         
-        # hashtags:
-        #         image: sagaslife/hashtag
-        #         restart: "on-failure"
-        #         hostname: htms
-        #         container_name: htms
-        #         networks:
-        #                 dostyk:
-        #                         ipv4_address: 10.50.1.3
-        #         ports:
-        #                 - 4000:4000
-        #         depends_on:
-        #                 - kafka
-        #         environment:
-        #                 - VERTX_CONFIG_PATH=/opt/server/conf/config.json
-        #         volumes:
-        #                 - ./HashtagMicroservice/conf:/opt/server/conf
-        #         entrypoint: ["sh", "-c"]
-        #         command: ["java -jar hashtags-0.1.0-all.jar run hashtags.verticles.MainVerticle -cluster -conf /opt/server/conf/config.json"]
+        hashtags:
+                image: sagaslife/hashtag
+                restart: "on-failure"
+                hostname: htms
+                container_name: htms
+                networks:
+                        dostyk:
+                                ipv4_address: 10.50.1.3
+                ports:
+                        - 4000:4000
+                depends_on:
+                        - kafka
+                environment:
+                        - VERTX_CONFIG_PATH=/opt/server/conf/config.json
+                volumes:
+                        - ./HashtagMicroservice/conf:/opt/server/conf
+                entrypoint: ["sh", "-c"]
+                command: ["java -jar hashtags-0.1.0-all.jar run hashtags.verticles.MainVerticle -cluster -conf /opt/server/conf/config.json"]
 
 
 
-        # location:
-        #         image: sagaslife/location
-        #         restart: "on-failure"
-        #         hostname: location-microservice
-        #         container_name: location-microservice
-        #         networks:
-        #                 dostyk:
-        #                         ipv4_address: 10.50.5.2
-        #         depends_on:
-        #                 - kafka
-        #         environment:
-        #                 - VERTX_CONFIG_PATH=/opt/server/conf/config.json
-        #         entrypoint: ["sh", "-c"]
-        #         depends_on:
-        #                 - kafka
-        #         command: ["exec java -jar app.jar -cluster"]
+        location:
+                image: sagaslife/location
+                restart: "on-failure"
+                hostname: location-microservice
+                container_name: location-microservice
+                networks:
+                        dostyk:
+                                ipv4_address: 10.50.5.2
+                depends_on:
+                        - kafka
+                environment:
+                        - VERTX_CONFIG_PATH=/opt/server/conf/config.json
+                entrypoint: ["sh", "-c"]
+                depends_on:
+                        - kafka
+                command: ["exec java -jar app.jar -cluster"]
 
 
-        # mongodb:
-        #         image: mongo:latest
-        #         restart: "on-failure"
-        #         container_name: "mongodb"
-        #         networks:
-        #                 dostyk:
-        #                         ipv4_address: 10.50.1.2
-        #         environment:
-        #                 - MONGO_INITDB_ROOT_USERNAME=root
-        #                 - MONGO_INITDB_ROOT_PASSWORD=passwd
-        #                 - MONGO_INITDB_DATABASE=timelapses
-        #         volumes:
-        #                 - ./timelapse-microservice/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
-        #                 - mongoVolume:/data/db
-        #         ports:
-        #                 - 27017:27017
+        mongodb:
+                image: mongo:latest
+                restart: "on-failure"
+                container_name: "mongodb"
+                networks:
+                        dostyk:
+                                ipv4_address: 10.50.1.2
+                environment:
+                        - MONGO_INITDB_ROOT_USERNAME=root
+                        - MONGO_INITDB_ROOT_PASSWORD=passwd
+                        - MONGO_INITDB_DATABASE=timelapses
+                volumes:
+                        - ./timelapse-microservice/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+                        - mongoVolume:/data/db
+                ports:
+                        - 27017:27017
 
 
-        # mainverticle:
-        #         image: sagaslife/timelapse
-        #         restart: "on-failure"
-        #         hostname: mainVerticle
-        #         container_name: mainVerticle
-        #         networks:
-        #                 dostyk:
-        #                         ipv4_address: 10.50.1.5
-        #         depends_on:
-        #                 - mongodb
-        #                 - kafka
-        #         environment:
-        #                 - VERTX_CONFIG_PATH=/opt/server/conf/config.json
-        #         volumes:
-        #                 - ./timelapse-microservice/conf:/opt/server/conf
-        #         entrypoint: ["sh", "-c"]
-        #         command: ["java -jar timelapses-0.1.0-all.jar run timelapses.verticles.main.MainVerticle -cluster -conf /opt/server/conf/config.json"]
+        mainverticle:
+                image: sagaslife/timelapse
+                restart: "on-failure"
+                hostname: mainVerticle
+                container_name: mainVerticle
+                networks:
+                        dostyk:
+                                ipv4_address: 10.50.1.5
+                depends_on:
+                        - mongodb
+                        - kafka
+                environment:
+                        - VERTX_CONFIG_PATH=/opt/server/conf/config.json
+                volumes:
+                        - ./timelapse-microservice/conf:/opt/server/conf
+                entrypoint: ["sh", "-c"]
+                command: ["java -jar timelapses-0.1.0-all.jar run timelapses.verticles.main.MainVerticle -cluster -conf /opt/server/conf/config.json"]
 
 
 
-        # notification:
-        #         image: sagaslife/pushnotification
-        #         restart: "on-failure"
-        #         hostname: notification
-        #         container_name: notification
-        #         networks:
-        #                 dostyk:
-        #                         ipv4_address: 10.50.1.4
-        #         depends_on:
-        #                 - kafka
-        #         environment:
-        #                 - VERTX_CONFIG_PATH=/opt/server/conf/config.json
-        #         entrypoint: ["sh", "-c"]
-        #         command: ["java -jar notification-0.1.0-all.jar run notification.verticles.MainVerticle -cluster -conf /opt/server/conf/config.json"]
+        notification:
+                image: sagaslife/pushnotification
+                restart: "on-failure"
+                hostname: notification
+                container_name: notification
+                networks:
+                        dostyk:
+                                ipv4_address: 10.50.1.4
+                depends_on:
+                        - kafka
+                environment:
+                        - VERTX_CONFIG_PATH=/opt/server/conf/config.json
+                entrypoint: ["sh", "-c"]
+                command: ["java -jar notification-0.1.0-all.jar run notification.verticles.MainVerticle -cluster -conf /opt/server/conf/config.json"]
 
 
-        # envoy:
-        #         build: gateway/
-        #         restart: "on-failure"
-        #         hostname: envoy
-        #         container_name: envoy
-        #         volumes:
-        #                 - ./gateway/front-envoy.yaml:/etc/front-envoy.yaml
-        #         networks:
-        #                 dostyk:
-        #                         ipv4_address: 10.50.10.1
-        #         expose:
-        #                 - "80"
-        #                 - "8001"
-        #         ports:
-        #                 - "8000:80"
-        #                 - "8001:8001"
+        envoy:
+                build: gateway/
+                restart: "on-failure"
+                hostname: envoy
+                container_name: envoy
+                volumes:
+                        - ./gateway/front-envoy.yaml:/etc/front-envoy.yaml
+                networks:
+                        dostyk:
+                                ipv4_address: 10.50.10.1
+                expose:
+                        - "80"
+                        - "8001"
+                ports:
+                        - "8000:80"
+                        - "8001:8001"
 
 
 
